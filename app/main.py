@@ -34,8 +34,4 @@ if st.button("Generate Itinerary"):
 if st.session_state['route'] is not None:
     st.write("### Recommended Itinerary")
     st.dataframe(st.session_state['route'])
-    st.write("Route columns:", st.session_state['route'].columns)
-    st.write(st.session_state['route'].head())
     display_map(st.session_state['route'])
-    st.write("Recommendations columns:", recs.columns)
-    st.write(recs.head())

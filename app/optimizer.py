@@ -2,15 +2,25 @@ from utils import haversine_distance
 import pandas as pd
 
 def optimize_route(attractions, time_limit, start_location=None):
-    # Use start_location as the starting point if provided
-    # Otherwise, use the first attraction as the start
+    # If user location is provided, create a Series with the same structure as attractions
     if start_location is not None:
-        start = start_location
+        # Create a dummy row for the user location
+        start = attractions.iloc[0].copy()
+        start['Latitude'] = start_location[0]
+        start['Longitude'] = start_location[1]
+        start['Name'] = 'Your Location'
+        # Optionally, set other columns to None or default values
+        for col in attractions.columns:
+            if col not in ['Latitude', 'Longitude', 'Name']:
+                start[col] = None
     else:
         start = attractions.iloc[0]
 
     route = [start]
-    remaining = attractions.iloc[1:].copy()
+    if start_location is not None:
+        remaining = attractions.copy()
+    else:
+        remaining = attractions.iloc[1:].copy()
     current = start
 
     while not remaining.empty:
@@ -20,14 +30,8 @@ def optimize_route(attractions, time_limit, start_location=None):
         current = next_stop
         remaining = remaining.drop(next_stop.name)
 
-    return pd.DataFrame(route)
-
-def optimize_route(recommendations, time_limit, start_location=None):
-    # ...your route optimization logic...
-    # Example: return the recommendations as is (ensure columns exist)
-    columns_needed = ['Name', 'Latitude', 'Longitude']
-    if all(col in recommendations.columns for col in columns_needed):
-        return recommendations[columns_needed]
-    else:
-        # Fallback: return recommendations with all columns
-        return recommendations
+    # Remove the distance column if present
+    route_df = pd.DataFrame(route)
+    # if 'distance' in route_df.columns:
+    #     route_df = route_df.drop(columns=['distance'])
+    return route_df
