@@ -17,7 +17,8 @@ def hybrid_recommend(
     time_limit,
     budget,
     crowded_preference,
-    user_location=None
+    user_location=None,
+    top_k_candidates=3  # NEW PARAMETER: Number of top candidates to consider at each step
 ):
     # Filter by category and crowded preference
     filtered = data[data['Category'].isin(selected_categories)].copy()
@@ -38,7 +39,8 @@ def hybrid_recommend(
     # Content-based filtering (TF-IDF on Description)
     tfidf = TfidfVectorizer(stop_words='english')
     tfidf_matrix = tfidf.fit_transform(filtered['Description'])
-    # If user_location is provided, use it as the start; else, use first attraction
+    
+    # Set up starting location
     if user_location is not None:
         start = filtered.iloc[0].copy()
         start['Latitude'] = user_location[0]
@@ -49,43 +51,79 @@ def hybrid_recommend(
                 start[col] = None
     else:
         start = filtered.iloc[0]
-    # Cosine similarity to all attractions (use mean vector for all descriptions)
+    
+    # Cosine similarity to all attractions
     mean_vec = np.asarray(tfidf_matrix.mean(axis=0)).reshape(1, -1)
     similarity = cosine_similarity(tfidf_matrix, mean_vec)
     filtered['content_score'] = similarity.flatten()
 
     # Hybrid score: combine cluster diversity and content score
     filtered['hybrid_score'] = filtered['content_score'] + 0.2 * (filtered['cluster'] == filtered['cluster'].mode()[0])
-    filtered = filtered.sort_values('hybrid_score', ascending=False)
 
-    # Greedily select attractions under time and budget constraints
+    # ===== IMPROVED GREEDY SELECTION ALGORITHM =====
     selected = []
     total_time = 0
     total_cost = 0
     current = start
     remaining = filtered.copy()
+    
     while not remaining.empty:
-        # Estimate travel time from current to each remaining
-        remaining['travel_time'] = remaining.apply(lambda x: estimate_travel_time_km(haversine_distance(current, x)), axis=1)
-        # Total time = travel + visit
+        # Calculate travel time from current location to each remaining attraction
+        remaining['travel_time'] = remaining.apply(
+            lambda x: estimate_travel_time_km(haversine_distance(current, x)), axis=1
+        )
         remaining['total_time'] = remaining['travel_time'] + remaining['AvgVisitTimeHrs']
-        # Select the best next attraction that fits constraints
-        next_idx = None
-        for idx, row in remaining.iterrows():
-            if (total_time + row['total_time'] <= time_limit) and (total_cost + row['Cost'] <= budget):
-                next_idx = idx
-                break
-        if next_idx is None:
+        
+        # NEW: Calculate efficiency metrics for better selection
+        remaining['value_time_ratio'] = remaining['hybrid_score'] / remaining['total_time']
+        remaining['value_cost_ratio'] = remaining['hybrid_score'] / (remaining['Cost'] + 0.01)  # Avoid division by zero
+        remaining['value_budget_ratio'] = remaining['hybrid_score'] / (remaining['Cost'] / budget + 0.01)
+        
+        # NEW: Combined efficiency score that considers multiple factors
+        remaining['efficiency_score'] = (
+            0.4 * remaining['value_time_ratio'] + 
+            0.3 * remaining['value_cost_ratio'] + 
+            0.2 * remaining['hybrid_score'] +
+            0.1 * remaining['value_budget_ratio']
+        )
+        
+        # Filter attractions that fit within constraints
+        feasible_attractions = remaining[
+            (total_time + remaining['total_time'] <= time_limit) & 
+            (total_cost + remaining['Cost'] <= budget)
+        ].copy()
+        
+        if feasible_attractions.empty:
             break
+        
+        # NEW: Instead of taking the first feasible option, consider top-K candidates
+        # Sort by efficiency score and take the best among top-K feasible options
+        top_candidates = feasible_attractions.nlargest(
+            min(top_k_candidates, len(feasible_attractions)), 
+            'efficiency_score'
+        )
+        
+        # NEW: Among top candidates, select the one with highest efficiency score
+        best_candidate = top_candidates.iloc[0]
+        next_idx = best_candidate.name
+        
+        # Add selected attraction to itinerary
         next_attraction = remaining.loc[next_idx]
         selected.append(next_attraction)
         total_time += next_attraction['total_time']
         total_cost += next_attraction['Cost']
         current = next_attraction
         remaining = remaining.drop(next_idx)
+    
+    # Return results
     if selected:
         result = pd.DataFrame(selected)
-        result = result.drop(columns=['cluster', 'content_score', 'hybrid_score', 'travel_time', 'total_time'], errors='ignore')
+        # Clean up temporary columns
+        columns_to_drop = [
+            'cluster', 'content_score', 'hybrid_score', 'travel_time', 'total_time',
+            'value_time_ratio', 'value_cost_ratio', 'value_budget_ratio', 'efficiency_score'
+        ]
+        result = result.drop(columns=columns_to_drop, errors='ignore')
         return result.reset_index(drop=True)
     else:
-        return pd.DataFrame([]) 
+        return pd.DataFrame([])
