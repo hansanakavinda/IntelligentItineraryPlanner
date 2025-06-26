@@ -1,7 +1,8 @@
 import streamlit as st
 from data_loader import load_data
-from recommender import generate_recommendations
-from optimizer import optimize_route
+# from recommender import generate_recommendations
+# from optimizer import optimize_route
+from route_optimizer import optimize_route
 from map_visualizer import display_map
 from streamlit_geolocation import streamlit_geolocation
 from hybrid_recommender import hybrid_recommend
