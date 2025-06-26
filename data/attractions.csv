@@ -1,25 +1,76 @@
 Name,Category,Latitude,Longitude,Description,Cost,AvgVisitTimeHrs,Popularity,Crowded
-Galle Dutch Fort,Historical,6.0269,80.217,A UNESCO World Heritage Site showcasing colonial architecture and ocean views.,0,2.0,9,Yes
-Mirissa Beach,Beach,5.9485,80.455,A crescent-shaped beach known for whale watching and vibrant nightlife.,0,3.0,8,Yes
-Yala National Park,Wildlife,6.3667,81.5167,"Home to leopards, elephants, and diverse bird species in a natural habitat.",3500,4.0,10,Yes
+Galle Dutch Fort,Historical,6.0269,80.217,A UNESCO World Heritage Site showcasing colonial architecture and ocean views.,0,2,9,Yes
+Mirissa Beach,Beach,5.9485,80.455,A crescent-shaped beach known for whale watching and vibrant nightlife.,0,3,8,Yes
+Yala National Park,Wildlife,6.3667,81.5167,"Home to leopards, elephants, and diverse bird species in a natural habitat.",3500,4,10,Yes
 Unawatuna Beach,Beach,6.0094,80.2488,A popular beach destination with golden sands and coral reefs.,0,2.5,8,Yes
-Dondra Head Lighthouse,Landmark,5.92,80.5917,"The tallest lighthouse in Sri Lanka, located at the island's southernmost point.",0,1.0,7,No
-Bundala National Park,Wildlife,6.2,81.2,"A Ramsar wetland site, renowned for its migratory bird populations.",3000,3.0,7,No
+Dondra Head Lighthouse,Landmark,5.92,80.5917,"The tallest lighthouse in Sri Lanka, located at the island's southernmost point.",0,1,7,No
+Bundala National Park,Wildlife,6.2,81.2,"A Ramsar wetland site, renowned for its migratory bird populations.",3000,3,7,No
 Sinharaja Forest Reserve,Nature,6.4167,80.5,A UNESCO-listed tropical rainforest teeming with endemic flora and fauna.,1500,3.5,8,No
-Hiriketiya Beach,Beach,5.9667,80.7,A serene bay ideal for surfing and relaxation.,0,2.0,7,No
-Koggala Lake,Nature,5.9833,80.3333,"A tranquil lake surrounded by mangroves, offering boat tours and bird watching.",1000,2.0,6,No
+Hiriketiya Beach,Beach,5.9667,80.7,A serene bay ideal for surfing and relaxation.,0,2,7,No
+Koggala Lake,Nature,5.9833,80.3333,"A tranquil lake surrounded by mangroves, offering boat tours and bird watching.",1000,2,6,No
 Mulkirigala Rock Temples,Cultural,6.0833,80.6667,"Ancient rock temples with intricate murals and statues, perched atop a rocky hill.",500,1.5,7,No
-Hummanaya Blowhole,Natural Wonder,5.9667,80.7,"The only known blowhole in Sri Lanka, shooting water up to 30 meters high.",250,1.0,6,No
-Koggala Beach,Beach,5.99,80.32,A quiet beach known for its scenic beauty and stilt fishermen.,0,2.0,6,No
+Hummanaya Blowhole,Natural Wonder,5.9667,80.7,"The only known blowhole in Sri Lanka, shooting water up to 30 meters high.",250,1,6,No
+Koggala Beach,Beach,5.99,80.32,A quiet beach known for its scenic beauty and stilt fishermen.,0,2,6,No
 Weligama Bay,Beach,5.973,80.429,A sandy bay ideal for beginner surfers and beachgoers.,0,2.5,7,Yes
 Handunugoda Tea Estate,Cultural,5.99,80.4,A working tea plantation offering tours and tastings of virgin white tea.,0,1.5,6,No
-"Sea Turtle Hatchery, Kosgoda",Wildlife,6.3333,80.0333,A conservation project focused on protecting sea turtle eggs and hatchlings.,500,1.0,7,No
-Madu Ganga River Safari,Nature,6.3,80.0333,"A boat safari through mangroves, islands, and cinnamon plantations.",2000,2.0,7,No
-Hikkaduwa Coral Sanctuary,Nature,6.14,80.1,A marine sanctuary with vibrant coral reefs and diverse marine life.,1000,2.0,8,Yes
+"Sea Turtle Hatchery, Kosgoda",Wildlife,6.3333,80.0333,A conservation project focused on protecting sea turtle eggs and hatchlings.,500,1,7,No
+Madu Ganga River Safari,Nature,6.3,80.0333,"A boat safari through mangroves, islands, and cinnamon plantations.",2000,2,7,No
+Hikkaduwa Coral Sanctuary,Nature,6.14,80.1,A marine sanctuary with vibrant coral reefs and diverse marine life.,1000,2,8,Yes
 Ussangoda National Park,Nature,6.15,80.8,A unique coastal plain with red soil and archaeological significance.,0,1.5,5,No
-"Coconut Tree Hill, Mirissa",Landmark,5.948,80.455,"A picturesque hilltop spot lined with coconut trees, offering panoramic views.",0,1.0,8,Yes
+"Coconut Tree Hill, Mirissa",Landmark,5.948,80.455,"A picturesque hilltop spot lined with coconut trees, offering panoramic views.",0,1,8,Yes
 "Stilt Fishermen, Ahangama",Cultural,5.9833,80.4167,"Traditional fishermen perched on stilts, a unique sight along the coast.",0,0.5,6,No
-Kanneliya Rainforest Reserve,Nature,6.2167,80.3333,"A biodiversity hotspot with endemic flora and fauna.",1500,3.0,7,No
-Ridiyagama Safari Park,Wildlife,6.2000,80.8500,"Sri Lanka's first open-air zoo featuring diverse animal species.",2500,2.5,6,Yes
-Kalametiya Bird Sanctuary,Nature,6.0470,80.8600,"A coastal wetland rich in birdlife and mangroves.",1000,2.0,6,No
-Rekawa Turtle Watch,Wildlife,6.0360,80.8610,"A beach where sea turtles come ashore to lay eggs.",500,2.0,6,No
+Kanneliya Rainforest Reserve,Nature,6.2167,80.3333,A biodiversity hotspot with endemic flora and fauna.,1500,3,7,No
+Ridiyagama Safari Park,Wildlife,6.2,80.85,Sri Lanka's first open-air zoo featuring diverse animal species.,2500,2.5,6,Yes
+Kalametiya Bird Sanctuary,Nature,6.047,80.86,A coastal wetland rich in birdlife and mangroves.,1000,2,6,No
+Rekawa Turtle Watch,Wildlife,6.036,80.861,A beach where sea turtles come ashore to lay eggs.,500,2,6,No
+Secret Beach Mirissa,Beach,5.9436715,80.4499395,A small hidden beach in Mirissa popular for swimming and snorkeling with fewer crowds,0,2,7,No
+Diving Mirissa,Water Activity,5.9370931,80.4798993,Scuba diving center offering guided dives in Mirissa,5000,2.5,8,No
+Pearl Divers PADI Dive Center Unawatuna,Water Activity,6.0089781,80.2507668,Professional dive center offering PADI-certified diving experiences,5500,2,9,No
+Weligama Bay Dive Center,Water Activity,5.9609104,80.419892,Popular dive school in Weligama with beginner and advanced courses,4500,2,8,No
+Turtle Beach (Dalawella),Nature,5.9995625,80.2645781,A peaceful beach known for frequent sea turtle sightings,0,1.5,7,No
+Turtle Beach - Hikkaduwa,Nature,6.131503,80.099723,Famous snorkeling beach with turtles and coral reefs in Hikkaduwa,0,2,8,Yes
+Turtle Beach (Mirissa),Nature,5.9412548,80.4657551,Quiet beach in Mirissa frequented by sea turtles during sunrise,0,1.5,7,No
+Ridiyagama Safari Park,Wildlife,6.2458184,80.9835512,Sri Lanka's first drive-through safari park featuring exotic animals,1000,3,8,Yes
+Thalpe Beach,Beach,5.9952498,80.2878868,Tranquil beach with natural rock pools ideal for relaxing swims,0,1.5,6,No
+Jungle Beach (Rumassala),Beach,5.9587307,80.4131514,Hidden bay surrounded by jungle; great for snorkeling and solitude,0,2,7,No
+Jungle Beach (Unawatuna),Beach,6.0186943,80.2394104,Secluded beach near Unawatuna with natural charm and minimal crowds,0,2,7,No
+Kabalana Beach,Beach,5.9775927,80.34994,A beautiful beach popular with surfers and known for the famous �The Rock� surf break,0,2,8,No
+Sinigama Sri Devol Devalaya,Cultural,6.1566481,80.092165,Ancient temple on a tiny islet believed to protect fishermen and travelers.,0,1,7,No
+Hikkaduwa Lagoon Safari and Adventure Kayaking,Nature,6.1033254,80.1268865,Lagoon safari and kayak adventure through mangroves and water trails.,2500,1.5,8,No
+Wellabada Sea Turtles Hatchery,Wildlife,6.0778301,80.1525706,Conservation center for hatching and releasing sea turtles.,500,1,7,No
+Dadalla Beach,Beach,6.0500266,80.182822,Quiet and less crowded beach with a wide sandy coastline.,0,1.5,6,No
+"Sea Turtle Hatchery Centre, Mahamodara",Wildlife,6.0405752,80.198366,Hatchery working to protect sea turtles and educate visitors.,500,1,8,Yes
+Rumassala Sanctuary,Nature,6.0180556,80.2416667,"Biodiverse sanctuary with myths linked to the Ramayana, lush hills and trails.",0,2,7,No
+Japanese Peace Pagoda - Rumassala,Landmark,6.0159928,80.2380956,A hilltop Buddhist stupa offering panoramic coastal views.,0,1,8,No
+Unawatuna Beach,Beach,6.0096861,80.248424,"Famous tourist beach known for snorkeling, cafes, and lively vibes.",0,2,9,Yes
+Welle Devalaya,Cultural,6.0062575,80.2439459,"Historic seaside shrine dedicated to God Devol, popular during festivals.",0,0.5,6,No
+Dalawella Beach,Beach,5.9995953,80.2636684,Scenic beach known for the swing and shallow waters ideal for families.,0,1.5,8,Yes
+Koggala Beach,Beach,5.992272,80.3106907,Quiet stretch of beach near the lake and turtle hatcheries.,0,2,7,No
+Stilt Fisherman,Cultural,5.9851504,80.329219,"Traditional fishing method unique to Sri Lanka, seen on coastal poles.",0,0.5,7,Yes
+Octopus Reef,Beach,5.9785314,80.3455767,Secluded snorkeling and diving spot with reef views and coral.,0,1.5,7,No
+Ahangama Secret Beach,Beach,5.9675253,80.3714275,A secluded beach known for its tranquil environment and scenic beauty. ideal for relaxation and swimming.,0,2,5,No
+Ahangama Beach,Beach,5.9669924,80.374769,A popular beach in Ahangama. known for its sandy shores and suitability for surfing and sunbathing.,0,2,8,Yes
+Midigama Right,Surf Spot,5.9648146,80.3836423,A well-known surf break in Midigama. favored by experienced surfers for its consistent right-hand waves.,0,2,6,Yes
+Lazy Left Surf Spot Midigama,Surf Spot,5.9629773,80.3907096,A surf spot in Midigama known for its mellow left-hand waves. suitable for intermediate surfers.,0,2,5,No
+Midigama Skatepark,Skatepark,5.9638089,80.3925945,A local skatepark in Midigama. offering a space for skateboarders to practice and enjoy.,0,1,3,No
+Plantation's Surf Spot - Midigama,Surf Spot,5.9601851,80.399262,A surf spot near Midigama. known for its scenic surroundings and consistent waves for surfing.,0,2,5,No
+Coconut Beach,Beach,5.9588096,80.4058413,A picturesque beach with coconut groves. ideal for relaxation and photography.,0,2,5,No
+Abimanagama Beach,Beach,5.9583447,80.408285,A quieter beach near Midigama. offering a peaceful retreat with natural beauty.,0,2,3,No
+Fishermen Surf Point,Surf Spot,5.9554213,80.4210092,A surf spot frequented by local fishermen. known for its unique coastal vibe and waves.,0,2,3,No
+Weligama Fishermans Village Beach,Beach,5.9591591,80.4215071,A beach near Weligama known for its fishing village atmosphere and cultural charm.,0,2,6,Yes
+Weligama Surf Spot,Surf Spot,5.9724858,80.4357139,A popular surf destination in Weligama. ideal for beginners and intermediate surfers.,0,2,9,Yes
+The Surfer Surf Camps Sri Lanka - Weligama,Surf Camp,5.9698228,80.4468871,A surf and yoga camp in Weligama. offering lessons and accommodation for surf enthusiasts.,0,3,6,Yes
+The Real Secret Beach,Beach,5.9549484,80.45198,A hidden gem beach with fewer crowds. perfect for a secluded getaway.,0,2,3,No
+Parrot Rock,Landmark,5.9414224,80.4622485,A scenic rock formation offering panoramic views of the coastline. popular for sunset watching.,0,1,6,Yes
+La Piscina Beach,Beach,5.9372244,80.4841061,A beach known for its natural pool-like formations. ideal for swimming and snorkeling.,0,2,3,No
+Depiyassa Gala,Landmark,5.9389638,80.5022067,A rock formation with cultural significance. offering scenic views and a unique hiking experience.,0,1,3,No
+Madiha Beach,Beach,5.9361336,80.5158699,A serene beach near Matara. known for its calm waters and suitability for swimming.,0,2,5,No
+Polhena Beach,Beach,5.9363176,80.5263073,A popular beach for snorkeling and swimming. known for its coral reefs and marine life.,0,2,8,Yes
+Hidden Beach Wawwa,Beach,5.9261512,80.5992614,A secluded beach offering privacy and natural beauty. ideal for a quiet escape.,0,2,3,No
+Kaaku Duuwa,Landmark,5.9276578,80.611732,A lesser-known coastal landmark with natural beauty and potential for exploration.,0,1,3,No
+Turtle Point Bathigama Dickwella,Turtle Watching,5.9591898,80.6825163,A spot known for turtle sightings. offering opportunities for eco-tourism and wildlife observation.,0,2,5,No
+Blue Beach Island,Beach,5.9606247,80.7202253,A small island beach with clear waters. ideal for snorkeling and relaxation.,0,2,3,No
+Wildlife Turtle Project Kapuhenwala,Turtle Conservation,6.0430764,80.8280169,A conservation project focused on protecting sea turtles. offering educational tours and volunteering opportunities.,0,2,5,No
+Rekawa Lagoon Kayaking (Uncle's Place),Kayaking,6.054304,80.856006,A kayaking experience through Rekawa Lagoon. offering scenic views and wildlife observation.,0,3,5,No
+Kalametiya Lagoon Bird Sanctuary & Wetland Park,Bird Sanctuary,6.0799026,80.9329755,A biodiversity hotspot with over 150 bird species. ideal for birdwatching via catamaran tours.,30,2.5,8,No
+Kalametiya Bird Sanctuary,Bird Sanctuary,6.0974285,80.9508421,A historic sanctuary established in 1938. known for its rich birdlife and eco-friendly boat tours.,30,2.5,8,No
