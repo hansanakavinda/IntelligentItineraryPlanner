@@ -1,4 +1,4 @@
-from utils import haversine_distance
+from app.utils import haversine_distance
 import pandas as pd
 
 # NEW: Import Google OR-Tools
