@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
-from utils import haversine_distance
+from app.utils import haversine_distance
 import numpy as np
 
 # Helper to estimate travel time (in hours) given distance (km), assuming avg speed 40km/h
@@ -118,9 +118,9 @@ def hybrid_recommend(
     # Return results
     if selected:
         result = pd.DataFrame(selected)
-        # Clean up temporary columns
+        # Clean up temporary columns (keep total_time for testing)
         columns_to_drop = [
-            'cluster', 'content_score', 'hybrid_score', 'travel_time', 'total_time',
+            'cluster', 'content_score', 'hybrid_score', 'travel_time',
             'value_time_ratio', 'value_cost_ratio', 'value_budget_ratio', 'efficiency_score'
         ]
         result = result.drop(columns=columns_to_drop, errors='ignore')
