@@ -210,6 +210,13 @@ st.markdown("""
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
     }
+    
+    /* Reduce top gap and move header closer to top */
+    .block-container {
+        padding-top: 3rem !important;
+        padding-bottom: 0rem !important;
+    }
+    
 </style>
 """, unsafe_allow_html=True)
 
