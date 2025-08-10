@@ -143,63 +143,6 @@ st.markdown("""
             padding-left: 1rem;
             padding-right: 1rem;
         }
-        
-        /* FIX: Force sidebar toggle to be visible on mobile */
-        .css-1rs6os.edgvbvh3 {
-            display: block !important;
-        }
-        
-        /* Ensure sidebar toggle button is always visible */
-        button[data-testid="collapsedControl"] {
-            display: block !important;
-            position: fixed !important;
-            top: 0.5rem !important;
-            left: 0.5rem !important;
-            z-index: 999999 !important;
-            background-color: var(--primary-color) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 50% !important;
-            width: 3rem !important;
-            height: 3rem !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-        }
-        
-        /* Style the hamburger icon inside the button */
-        button[data-testid="collapsedControl"] svg {
-            color: white !important;
-            width: 1.5rem !important;
-            height: 1.5rem !important;
-        }
-        
-        /* Add smooth transitions (optional) */
-        button[data-testid="collapsedControl"] {
-            /* ...existing styles... */
-            transition: all 0.3s ease !important;
-        }
-
-        button[data-testid="collapsedControl"]:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
-        }
-        
-        /* Ensure sidebar header toggle is visible when sidebar is open */
-        button[data-testid="stSidebarNav"] {
-            display: block !important;
-        }
-        
-        /* Make sidebar overlay properly on mobile */
-        .css-1d391kg {
-            position: fixed !important;
-            z-index: 999998 !important;
-            height: 100vh !important;
-            width: 280px !important;
-        }
-        
-        /* Add backdrop when sidebar is open on mobile */
-        .css-1d391kg.css-1lcbmhc {
-            background-color: rgba(0, 0, 0, 0.5) !important;
-        }
     }
     
     @media (max-width: 480px) {
@@ -214,37 +157,6 @@ st.markdown("""
         .input-section {
             padding: 0.75rem;
         }
-        
-        /* Smaller sidebar on very small screens */
-        .css-1d391kg {
-            width: 260px !important;
-        }
-        
-        /* Adjust main content padding when sidebar toggle is fixed */
-        .block-container {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            padding-top: 4rem; /* Space for fixed toggle button */
-        }
-    }
-    
-    /* Additional fallback for sidebar toggle visibility */
-    .css-1rs6os {
-        display: block !important;
-        visibility: visible !important;
-    }
-    
-    /* Ensure the expand/collapse arrow is always visible */
-    .css-1rs6os.edgvbvh3 {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    /* Alternative selector for newer Streamlit versions */
-    [data-testid="collapsedControl"],
-    [data-testid="stSidebarNav"] {
-        display: block !important;
-        visibility: visible !important;
     }
     
     /* Sidebar styling */
