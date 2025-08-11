@@ -99,22 +99,25 @@ def display_map(route):
             tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
         ).add_to(m)
     
+    map_html = m._repr_html_()
+    
+    # Wrap with responsive container
+    responsive_html = f"""
+    <div style="width: 100%; height: 600px; border: none;">
+        {map_html}
+    </div>
+    <script>
+        // Force map to take full container size
+        var mapDiv = document.querySelector('.folium-map');
+        if (mapDiv) {{
+            mapDiv.style.width = '100%';
+            mapDiv.style.height = '600px';
+        }}
+    </script>
+    """
+    
     st.components.v1.html(
-        f"""
-        <div style="width: 100%; height: 600px;">
-            {m._repr_html_()}
-        </div>
-        <style>
-            .folium-map {{
-                width: 100% !important;
-                height: 100% !important;
-            }}
-            iframe {{
-                width: 100% !important;
-                height: 100% !important;
-            }}
-        </style>
-        """, 
-        height=600,  # Fixed height for deployment
-        width=None   # Use full available width
+        responsive_html, 
+        height=600,
+        scrolling=False
     )
