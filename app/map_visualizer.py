@@ -125,7 +125,7 @@ def display_map(route):
     try:
         from streamlit_folium import st_folium
         # This provides better sizing control
-        st_folium(m, width=700, height=600, returned_objects=["last_clicked"])
+        st_folium(m, width=1500, height=500, returned_objects=["last_clicked"])
     except ImportError:
         # Fallback to components with explicit sizing
         st.components.v1.html(
