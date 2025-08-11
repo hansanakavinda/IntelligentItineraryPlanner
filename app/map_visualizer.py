@@ -99,4 +99,22 @@ def display_map(route):
             tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
         ).add_to(m)
     
-    st.components.v1.html(m._repr_html_(), height=500)
+    st.components.v1.html(
+        f"""
+        <div style="width: 100%; height: 600px;">
+            {m._repr_html_()}
+        </div>
+        <style>
+            .folium-map {{
+                width: 100% !important;
+                height: 100% !important;
+            }}
+            iframe {{
+                width: 100% !important;
+                height: 100% !important;
+            }}
+        </style>
+        """, 
+        height=600,  # Fixed height for deployment
+        width=None   # Use full available width
+    )
