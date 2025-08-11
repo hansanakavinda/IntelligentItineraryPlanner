@@ -104,23 +104,6 @@ def display_map(route):
             tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
         ).add_to(m)
     
-    # Single, clean HTML output with forced sizing
-    st.markdown(
-        """
-        <style>
-        .map-container {
-            width: 100% !important;
-            height: 600px !important;
-        }
-        iframe {
-            width: 100% !important;
-            height: 600px !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    
     # Use st_folium for better integration (if available) or fallback to components
     try:
         from streamlit_folium import st_folium
