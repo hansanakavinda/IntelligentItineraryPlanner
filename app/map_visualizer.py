@@ -28,11 +28,15 @@ def get_route_between_points(start_coords, end_coords):
         route_coords = [[coord[1], coord[0]] for coord in route_coords]
         
         return route_coords
-    except:
+    except Exception as e:
         # Fallback to straight line if API fails
+        print(f"Route API error: {e}")
         return [start_coords, end_coords]
 
 def display_map(route):
+    """
+    Clean, single implementation of map display with proper sizing
+    """
     # Use the correct column names (case-sensitive)
     lat_col = 'Latitude' if 'Latitude' in route.columns else 'latitude'
     lon_col = 'Longitude' if 'Longitude' in route.columns else 'longitude'
@@ -61,6 +65,7 @@ def display_map(route):
         else:  # Very far apart
             zoom_level = 9
         
+        # Create map with initial zoom
         m = folium.Map(location=[center_lat, center_lon], zoom_start=zoom_level)
         
         # Add actual road routes between consecutive locations
@@ -78,8 +83,8 @@ def display_map(route):
                 opacity=0.8,
                 popup=f'Route from Stop {i+1} to Stop {i+2}'
             ).add_to(m)
-            
-        # Add small padding to bounds (much smaller than before)
+        
+        # Add small padding to bounds
         lat_margin = max(lat_span * 0.15, 0.005)  # Minimum margin
         lon_margin = max(lon_span * 0.15, 0.005)  # Minimum margin
         
@@ -91,7 +96,7 @@ def display_map(route):
         # Single location - use a reasonable zoom level
         m = folium.Map(location=[route.iloc[0][lat_col], route.iloc[0][lon_col]], zoom_start=13)
     
-    # Add markers
+    # Add markers for all locations
     for idx, row in route.iterrows():
         folium.Marker(
             location=[row[lat_col], row[lon_col]],
@@ -99,164 +104,33 @@ def display_map(route):
             tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
         ).add_to(m)
     
-    # Get the raw HTML
-    map_html = m._repr_html_()
-    
-    # Create a more aggressive full-width solution
-    full_width_html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    # Single, clean HTML output with forced sizing
+    st.markdown(
+        """
         <style>
-            body {{
-                margin: 0;
-                padding: 0;
-                width: 100vw;
-                height: 100vh;
-                overflow: hidden;
-            }}
-            .map-container {{
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                width: 100% !important;
-                height: 100% !important;
-            }}
-            .folium-map {{
-                width: 100% !important;
-                height: 100% !important;
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
-            }}
-            /* Override any folium default sizing */
-            #map {{
-                width: 100% !important;
-                height: 100% !important;
-            }}
+        .map-container {
+            width: 100% !important;
+            height: 600px !important;
+        }
+        iframe {
+            width: 100% !important;
+            height: 600px !important;
+        }
         </style>
-    </head>
-    <body>
-        <div class="map-container">
-            {map_html}
-        </div>
-        <script>
-            // Force resize after load
-            window.addEventListener('load', function() {{
-                setTimeout(function() {{
-                    var maps = document.querySelectorAll('.folium-map');
-                    maps.forEach(function(map) {{
-                        map.style.width = '100%';
-                        map.style.height = '100%';
-                        map.style.position = 'absolute';
-                        map.style.top = '0';
-                        map.style.left = '0';
-                    }});
-                    
-                    // Trigger resize event
-                    window.dispatchEvent(new Event('resize'));
-                }}, 100);
-            }});
-        </script>
-    </body>
-    </html>
-    """
-    
-    # Display with maximum height
-    st.components.v1.html(
-        full_width_html,
-        height=700,  # Increased height
-        scrolling=False
+        """,
+        unsafe_allow_html=True
     )
-    # Use the correct column names (case-sensitive)
-    lat_col = 'Latitude' if 'Latitude' in route.columns else 'latitude'
-    lon_col = 'Longitude' if 'Longitude' in route.columns else 'longitude'
     
-    # Calculate center and bounds
-    if len(route) > 1:
-        min_lat, max_lat = route[lat_col].min(), route[lat_col].max()
-        min_lon, max_lon = route[lon_col].min(), route[lon_col].max()
-        center_lat = (min_lat + max_lat) / 2
-        center_lon = (min_lon + max_lon) / 2
-        
-        # Calculate distance span to determine appropriate zoom
-        lat_span = max_lat - min_lat
-        lon_span = max_lon - min_lon
-        max_span = max(lat_span, lon_span)
-        
-        # Set zoom based on span (smaller span = higher zoom)
-        if max_span < 0.01:  # Very close locations
-            zoom_level = 14
-        elif max_span < 0.05:  # Close locations
-            zoom_level = 12
-        elif max_span < 0.1:  # Medium distance
-            zoom_level = 11
-        elif max_span < 0.3:  # Larger distance
-            zoom_level = 10
-        else:  # Very far apart
-            zoom_level = 9
-        
-        m = folium.Map(location=[center_lat, center_lon], zoom_start=zoom_level)
-        
-        # Add actual road routes between consecutive locations
-        for i in range(len(route) - 1):
-            start_point = [route.iloc[i][lat_col], route.iloc[i][lon_col]]
-            end_point = [route.iloc[i+1][lat_col], route.iloc[i+1][lon_col]]
-            
-            # Get actual road route
-            road_route = get_route_between_points(start_point, end_point)
-            
-            folium.PolyLine(
-                locations=road_route,
-                color='blue',
-                weight=4,
-                opacity=0.8,
-                popup=f'Route from Stop {i+1} to Stop {i+2}'
-            ).add_to(m)
-            
-        # Add small padding to bounds (much smaller than before)
-        lat_margin = max(lat_span * 0.15, 0.005)  # Minimum margin
-        lon_margin = max(lon_span * 0.15, 0.005)  # Minimum margin
-        
-        southwest = [min_lat - lat_margin, min_lon - lon_margin]
-        northeast = [max_lat + lat_margin, max_lon + lon_margin]
-        m.fit_bounds([southwest, northeast])
-        
-    else:
-        # Single location - use a reasonable zoom level
-        m = folium.Map(location=[route.iloc[0][lat_col], route.iloc[0][lon_col]], zoom_start=13)
-    
-    # Add markers
-    for idx, row in route.iterrows():
-        folium.Marker(
-            location=[row[lat_col], row[lon_col]],
-            popup=f"Stop {idx+1}: {row.get('Name', 'Attraction')}",
-            tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
-        ).add_to(m)
-    
-    map_html = m._repr_html_()
-    
-    # Wrap with responsive container
-    responsive_html = f"""
-    <div style="width: 100%; height: 600px; border: none;">
-        {map_html}
-    </div>
-    <script>
-        // Force map to take full container size
-        var mapDiv = document.querySelector('.folium-map');
-        if (mapDiv) {{
-            mapDiv.style.width = '100%';
-            mapDiv.style.height = '600px';
-        }}
-    </script>
-    """
-    
-    st.components.v1.html(
-        responsive_html, 
-        height=600,
-        scrolling=False
-    )
+    # Use st_folium for better integration (if available) or fallback to components
+    try:
+        from streamlit_folium import st_folium
+        # This provides better sizing control
+        st_folium(m, width=700, height=600, returned_objects=["last_clicked"])
+    except ImportError:
+        # Fallback to components with explicit sizing
+        st.components.v1.html(
+            m._repr_html_(),
+            height=600,
+            width=700,
+            scrolling=False
+        )
