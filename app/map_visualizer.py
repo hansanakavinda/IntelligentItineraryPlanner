@@ -101,7 +101,8 @@ def display_map(route):
         folium.Marker(
             location=[row[lat_col], row[lon_col]],
             popup=f"Stop {idx+1}: {row.get('Name', 'Attraction')}",
-            tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}"
+            tooltip=f"Stop {idx+1}: {row.get('Name', 'Attraction')}",
+            icon=folium.Icon(icon='info-sign', color='blue')
         ).add_to(m)
     
     # Use st_folium for better integration (if available) or fallback to components
