@@ -390,7 +390,7 @@ if st.session_state['route'] is not None:
         # Display the route table
         st.dataframe(
             route_df,
-            use_container_width=True,
+            width='stretch',
             hide_index=True
         )
     
