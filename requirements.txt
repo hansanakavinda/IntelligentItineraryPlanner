@@ -7,3 +7,6 @@ streamlit-geolocation
 ortools
 openrouteservice
 python-dotenv
+plotly
+matplotlib
+seaborn

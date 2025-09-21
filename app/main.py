@@ -4,6 +4,7 @@ from route_optimizer import optimize_route
 from map_visualizer import display_map
 from streamlit_geolocation import streamlit_geolocation
 from hybrid_recommender import hybrid_recommend
+from xai import XAIExplainer
 
 # Page configuration with custom theme
 st.set_page_config(
@@ -332,14 +333,19 @@ if st.button("🚀 Generate Personalized Itinerary", key="generate_btn"):
         st.error("⚠️ Please set your available time")
     else:
         with st.spinner("🔍 Finding the perfect attractions for you..."):
-            recs = hybrid_recommend(data, category, time_limit, budget, crowded_bool, user_location)
+            recs, explanation_data = hybrid_recommend(
+                data, category, time_limit, budget, crowded_bool, user_location,
+                return_explanation_data=True
+            )
             
             if recs.empty:
                 st.warning("😔 No attractions found matching your preferences. Try adjusting your filters!")
                 st.session_state['route'] = None
+                st.session_state['explanation_data'] = None
             else:
                 with st.spinner("🗺️ Optimizing your route..."):
                     st.session_state['route'] = optimize_route(recs, time_limit, start_location=user_location)
+                    st.session_state['explanation_data'] = explanation_data  # NEW: Store explanation data
                 st.success(f"🎉 Found {len(st.session_state['route'])} amazing places for you!")
 
 st.markdown('</div>', unsafe_allow_html=True)
@@ -350,68 +356,92 @@ if st.session_state['route'] is not None:
     st.markdown("### 🗺️ Your Personalized Itinerary")
     
     # Create tabs for different views
-    tab1, tab2, tab3 = st.tabs(["📋 Itinerary Details", "🗺️ Route Map", "📊 Trip Analytics"])
-    
+    tab1, tab2 = st.tabs([ "🗺️ Route Map", "🤖 AI Explanation"])
+
     with tab1:
-        # Enhanced dataframe display
-        route_df = st.session_state['route']
-        
-        # Add trip metrics
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("🏛️ Total Stops", len(route_df))
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col2:
-            if 'Cost' in route_df.columns:
-                total_cost = route_df['Cost'].sum()
-                st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-                st.metric("💰 Total Cost", f"LKR {total_cost:,.0f}")
-                st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col3:
-            if 'AvgVisitTimeHrs' in route_df.columns:
-                total_time = route_df['AvgVisitTimeHrs'].sum()
-                st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-                st.metric("⏱️ Total Time", f"{total_time:.1f} hours")
-                st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col4:
-            if 'Popularity' in route_df.columns:
-                avg_popularity = route_df['Popularity'].mean()
-                st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-                st.metric("⭐ Avg. Rating", f"{avg_popularity:.1f}/10")
-                st.markdown('</div>', unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        # Display the route table
-        st.dataframe(
-            route_df,
-            width='stretch',
-            hide_index=True
-        )
-    
-    with tab2:
         # Map display
         display_map(st.session_state['route'])
     
-    with tab3:
-        # Trip analytics
-        if len(route_df) > 1:
-            # Category distribution
-            if 'Category' in route_df.columns:
-                st.markdown("#### 📊 Attraction Categories")
-                category_counts = route_df['Category'].value_counts()
-                st.bar_chart(category_counts)
+    with tab2:
+        # NEW: XAI Explanation Tab
+        if 'explanation_data' in st.session_state and st.session_state['explanation_data']:
+            explainer = XAIExplainer()
+            explanation_data = st.session_state['explanation_data']
             
-            # Cost distribution
-            if 'Cost' in route_df.columns:
-                st.markdown("#### 💰 Cost Distribution")
-                st.bar_chart(route_df.set_index('Name')['Cost'])
-    
+            st.markdown("## 🤖 How the AI Made Your Recommendations")
+            st.markdown("*Understanding the decision-making process behind your personalized itinerary*")
+            
+            # Clustering explanation
+            explainer.explain_clustering(
+                explanation_data['original_data'],
+                explanation_data['filtered_data'],
+                explanation_data['kmeans_model'],
+                explanation_data['selected_categories']
+            )
+            
+            st.markdown("---")
+            
+            # Content similarity explanation
+            explainer.explain_content_similarity(
+                explanation_data['filtered_data'],
+                explanation_data['tfidf_matrix']
+            )
+            
+            st.markdown("---")
+            
+            # Hybrid scoring explanation
+            explainer.explain_hybrid_scoring(explanation_data['filtered_data'])
+            
+            st.markdown("---")
+            
+            # Route optimization explanation
+            explainer.explain_route_optimization(st.session_state['route'])
+            
+            st.markdown("---")
+            
+            # Decision factors
+            explainer.show_decision_factors(
+                st.session_state['route'],
+                explanation_data['filtered_data']
+            )
+            
+            st.markdown("---")
+            
+            # Feature importance
+            explainer.create_feature_importance_chart(st.session_state['route'])
+            
+            # Selection process explanation
+            if 'selection_steps' in explanation_data:
+                st.markdown("### 🎯 **Step-by-Step Selection Process**")
+                
+                for step in explanation_data['selection_steps']:
+                    with st.expander(f"Step {step['step']}: Why we chose {step['selected_attraction']}"):
+                        col1, col2 = st.columns([1, 1])
+                        
+                        with col1:
+                            st.markdown(f"""
+                            **Selection Metrics:**
+                            - 🎯 Efficiency Score: {step['efficiency_score']:.3f}
+                            - 📝 Content Score: {step['content_score']:.3f}
+                            - ⚖️ Hybrid Score: {step['hybrid_score']:.3f}
+                            - 🚗 Travel Time: {step['travel_time']:.1f}h
+                            """)
+                        
+                        with col2:
+                            st.markdown(f"""
+                            **Context:**
+                            - 🎰 Feasible Options: {step['feasible_options']}
+                            - ⏱️ Total Time So Far: {step['total_time_so_far']:.1f}h
+                            - 💰 Total Cost So Far: LKR {step['total_cost_so_far']:,.0f}
+                            """)
+                        
+                        if len(step['top_candidates']) > 1:
+                            st.markdown("**Top Candidates Considered:**")
+                            for i, candidate in enumerate(step['top_candidates'][:3]):
+                                st.markdown(f"{i+1}. {candidate['Name']} (Score: {candidate['efficiency_score']:.3f})")
+        else:
+            st.info("🤖 Generate an itinerary first to see AI explanations!")
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
