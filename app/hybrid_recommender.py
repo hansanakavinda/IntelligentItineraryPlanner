@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import StandardScaler
 from utils import haversine_distance
 import numpy as np
 
@@ -15,14 +16,22 @@ def find_optimal_k_simple(features, max_k=8):
     """Simple elbow method implementation with detailed logging"""
     print(f"\n=== ELBOW METHOD DEBUG ===")
     print(f"Input features shape: {features.shape}")
-    print(f"Features used: {list(features.columns)}")
+
+    # Handle both DataFrame and numpy array
+    if hasattr(features, 'columns'):
+        print(f"Features used: {list(features.columns)}")
+        feature_data = features.values  # Convert DataFrame to numpy array
+    else:
+        print(f"Features used: numpy array with {features.shape[1]} features")
+        feature_data = features  # Already a numpy array
+
     print(f"Max k to test: {max_k}")
-    
-    if len(features) <= 2:
-        print(f"Too few data points ({len(features)}), returning k=1")
+
+    if len(feature_data) <= 2:
+        print(f"Too few data points ({len(feature_data)}), returning k=1")
         return 1
-    
-    max_k = min(max_k, len(features))
+
+    max_k = min(max_k, len(feature_data))
     print(f"Adjusted max_k (limited by data size): {max_k}")
     
     wcss = []
@@ -30,7 +39,7 @@ def find_optimal_k_simple(features, max_k=8):
     
     for k in range(1, max_k + 1):
         kmeans = KMeans(n_clusters=k, n_init=10, random_state=42)
-        kmeans.fit(features)
+        kmeans.fit(feature_data)
         wcss_value = kmeans.inertia_
         wcss.append(wcss_value)
         print(f"k={k}: WCSS = {wcss_value:.2f}")
@@ -66,6 +75,39 @@ def find_optimal_k_simple(features, max_k=8):
         print(f"Not enough k values to find elbow, returning k={len(wcss)}")
         return len(wcss)
 
+def prepare_kmeans_features_v3(filtered_data):
+    # Geographic features (normalized)
+    geo_features = filtered_data[['Latitude', 'Longitude']].copy()
+    geo_scaler = StandardScaler()
+    geo_normalized = geo_scaler.fit_transform(geo_features)
+    
+    # Experience features
+    experience_features = []
+    
+    # Time investment (normalized)
+    time_normalized = StandardScaler().fit_transform(filtered_data[['AvgVisitTimeHrs']])
+    experience_features.append(time_normalized.flatten())
+    
+    # Cost tier (categorical)
+    cost_tiers = np.zeros((len(filtered_data), 3))  # Free, Low, High
+    cost_tiers[filtered_data['Cost'] == 0, 0] = 1  # Free
+    cost_tiers[(filtered_data['Cost'] > 0) & (filtered_data['Cost'] < 2000), 1] = 1  # Low cost
+    cost_tiers[filtered_data['Cost'] >= 2000, 2] = 1  # High cost
+    
+    # Popularity tier
+    popularity_normalized = StandardScaler().fit_transform(filtered_data[['Popularity']])
+    experience_features.append(popularity_normalized.flatten())
+    
+    # Combine all features
+    all_features = np.hstack([
+        geo_normalized,  # Geographic location
+        time_normalized,  # Visit duration
+        cost_tiers,      # Cost categories
+        popularity_normalized  # Popularity score
+    ])
+    
+    return all_features
+
 def hybrid_recommend(
     data,
     selected_categories,
@@ -89,7 +131,7 @@ def hybrid_recommend(
         return pd.DataFrame([])
 
     # KMeans clustering for diversity (by location and duration)
-    kmeans_features = filtered[['Latitude', 'Longitude', 'AvgVisitTimeHrs']]
+    kmeans_features = prepare_kmeans_features_v3(filtered)
     n_clusters = find_optimal_k_simple(kmeans_features)
     print(f"Optimal clusters using elbow method: {n_clusters}")
     kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=42)
