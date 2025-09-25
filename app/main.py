@@ -379,6 +379,9 @@ if st.session_state['route'] is not None:
                 explanation_data['selected_categories']
             )
             
+            # Elbow method explanation
+            explainer.explain_elbow_method(explanation_data)
+            
             st.markdown("---")
             
             # Content similarity explanation
