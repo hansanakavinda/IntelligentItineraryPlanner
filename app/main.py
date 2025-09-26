@@ -356,16 +356,121 @@ if st.session_state['route'] is not None:
     st.markdown("### 🗺️ Your Personalized Itinerary")
     
     # Create tabs for different views
-    tab1, tab2 = st.tabs([ "🗺️ Route Map", "🤖 AI Explanation"])
+    tab1, tab2, tab3 = st.tabs(["📍 Attraction Details", "🗺️ Route Map", "🤖 AI Explanation"])
 
     with tab1:
+        # NEW: Attraction Details Tab
+        st.markdown("### 📍 Your Selected Attractions")
+        st.markdown("*Detailed information about each attraction in your itinerary*")
+        
+        if len(st.session_state['route']) > 0:
+            # Create info cards for each attraction
+            for idx, attraction in st.session_state['route'].iterrows():
+                # Skip if this is the starting location marker
+                if attraction['Name'] == 'Your Location':
+                    continue
+                    
+                # Create expandable card for each attraction
+                with st.expander(f"🏛️ **{attraction['Name']}** - {attraction['Category']}", expanded=True):
+                    # Create columns for better layout
+                    col1, col2 = st.columns([2, 1])
+                    
+                    with col1:
+                        # Description
+                        st.markdown("**📖 Description:**")
+                        st.markdown(f"{attraction['Description']}")
+                        
+                    
+                    with col2:
+                        # Cost metric
+                        if attraction['Cost'] == 0:
+                            st.metric(
+                                label="💰 Entry Cost",
+                                value="FREE",
+                                help="No entrance fee required"
+                            )
+                        else:
+                            st.metric(
+                                label="💰 Entry Cost", 
+                                value=f"LKR {attraction['Cost']:,}",
+                                help="Entrance fee per person"
+                            )
+                        
+                        # Visit time metric
+                        st.metric(
+                            label="⏱️ Visit Duration",
+                            value=f"{attraction['AvgVisitTimeHrs']:.1f} hours",
+                            help="Average time visitors spend here"
+                        )
+                        
+                        # Popularity rating
+                        popularity_stars = "⭐" * int(attraction['Popularity'])
+                        st.metric(
+                            label="⭐ Popularity Rating",
+                            value=f"{attraction['Popularity']}/10",
+                            delta=f"{popularity_stars}",
+                            help="Visitor rating out of 10"
+                        )
+                        
+                        # Crowded status
+                        crowd_icon = "👥" if attraction['Crowded'] == 'Yes' else "🌟"
+                        crowd_text = "Usually Crowded" if attraction['Crowded'] == 'Yes' else "Less Crowded"
+                        st.info(f"{crowd_icon} {crowd_text}")
+            
+            # Summary statistics at the bottom
+            st.markdown("---")
+            st.markdown("### 📊 Trip Summary")
+            
+            # Calculate totals
+            total_cost = st.session_state['route']['Cost'].sum()
+            total_time = st.session_state['route']['AvgVisitTimeHrs'].sum()
+            avg_popularity = st.session_state['route']['Popularity'].mean()
+            total_attractions = len(st.session_state['route'])
+            
+            # Display summary metrics
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric(
+                    "🏛️ Total Attractions",
+                    f"{total_attractions}",
+                    help="Number of places to visit"
+                )
+            
+            with col2:
+                st.metric(
+                    "💰 Total Cost",
+                    f"LKR {total_cost:,}",
+                    help="Total entrance fees"
+                )
+            
+            with col3:
+                st.metric(
+                    "⏱️ Total Visit Time",
+                    f"{total_time:.1f} hours",
+                    help="Time for visiting attractions (excluding travel)"
+                )
+            
+            with col4:
+                avg_stars = "⭐" * int(avg_popularity)
+                st.metric(
+                    "⭐ Average Rating",
+                    f"{avg_popularity:.1f}/10",
+                    delta=f"{avg_stars}",
+                    help="Average popularity rating"
+                )
+
+        else:
+            st.info("📍 Generate an itinerary first to see attraction details!")
+
+    with tab2:
         # Map display
         display_map(st.session_state['route'])
     
-    with tab2:
+    with tab3:
         # NEW: XAI Explanation Tab
         if 'explanation_data' in st.session_state and st.session_state['explanation_data']:
-            explainer = XAIExplainer()
+            explainer = XAIExplainer() 
             explanation_data = st.session_state['explanation_data']
             
             st.markdown("## 🤖 How the AI Made Your Recommendations")
