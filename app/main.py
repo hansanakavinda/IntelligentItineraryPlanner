@@ -474,38 +474,6 @@ if st.session_state['route'] is not None:
             explanation_data = st.session_state['explanation_data']
             
             st.markdown("## 🤖 How the AI Made Your Recommendations")
-            st.markdown("*Understanding the decision-making process behind your personalized itinerary*")
-            
-            # Clustering explanation
-            explainer.explain_clustering(
-                explanation_data['original_data'],
-                explanation_data['filtered_data'],
-                explanation_data['kmeans_model'],
-                explanation_data['selected_categories']
-            )
-            
-            # Elbow method explanation
-            explainer.explain_elbow_method(explanation_data)
-            
-            st.markdown("---")
-            
-            # Content similarity explanation
-            explainer.explain_content_similarity(
-                explanation_data['filtered_data'],
-                explanation_data['tfidf_matrix']
-            )
-            
-            st.markdown("---")
-            
-            # Hybrid scoring explanation
-            explainer.explain_hybrid_scoring(explanation_data['filtered_data'])
-            
-            st.markdown("---")
-            
-            # Route optimization explanation
-            explainer.explain_route_optimization(st.session_state['route'])
-            
-            st.markdown("---")
             
             # Decision factors
             explainer.show_decision_factors(
@@ -514,9 +482,6 @@ if st.session_state['route'] is not None:
             )
             
             st.markdown("---")
-            
-            # Feature importance
-            explainer.create_feature_importance_chart(st.session_state['route'])
             
             # Selection process explanation
             if 'selection_steps' in explanation_data:
@@ -530,8 +495,6 @@ if st.session_state['route'] is not None:
                             st.markdown(f"""
                             **Selection Metrics:**
                             - 🎯 Efficiency Score: {step['efficiency_score']:.3f}
-                            - 📝 Content Score: {step['content_score']:.3f}
-                            - ⚖️ Hybrid Score: {step['hybrid_score']:.3f}
                             - 🚗 Travel Time: {step['travel_time']:.1f}h
                             """)
                         

@@ -305,7 +305,7 @@ class XAIExplainer:
             """)
         
         else:
-            st.info("📊 Decision factor analysis requires multiple attraction options to compare.")
+            st.info("📊 Decision factor analysis requires multiple alternative attraction options to compare.")
 
     def create_feature_importance_chart(self, route_data):
         """Show which features were most important in selection"""
