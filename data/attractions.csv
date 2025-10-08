@@ -10,7 +10,6 @@ Hiriketiya Beach,Beach,5.9667,80.7,A serene bay ideal for surfing and relaxation
 Koggala Lake,Nature,5.9833,80.3333,"A tranquil lake surrounded by mangroves, offering boat tours and bird watching.",1000,2,6,No
 Mulkirigala Rock Temples,Cultural,6.0833,80.6667,"Ancient rock temples with intricate murals and statues, perched atop a rocky hill.",500,1.5,7,No
 Hummanaya Blowhole,Natural Wonder,5.9667,80.7,"The only known blowhole in Sri Lanka, shooting water up to 30 meters high.",250,1,6,No
-Koggala Beach,Beach,5.99,80.32,A quiet beach known for its scenic beauty and stilt fishermen.,0,2,6,No
 Weligama Bay,Beach,5.973,80.429,A sandy bay ideal for beginner surfers and beachgoers.,0,2.5,7,Yes
 Handunugoda Tea Estate,Cultural,5.99,80.4,A working tea plantation offering tours and tastings of virgin white tea.,0,1.5,6,No
 "Sea Turtle Hatchery, Kosgoda",Wildlife,6.3333,80.0333,A conservation project focused on protecting sea turtle eggs and hatchlings.,500,1,7,No
@@ -20,7 +19,6 @@ Ussangoda National Park,Nature,6.15,80.8,A unique coastal plain with red soil an
 "Coconut Tree Hill, Mirissa",Landmark,5.948,80.455,"A picturesque hilltop spot lined with coconut trees, offering panoramic views.",0,1,8,Yes
 "Stilt Fishermen, Ahangama",Cultural,5.9833,80.4167,"Traditional fishermen perched on stilts, a unique sight along the coast.",0,0.5,6,No
 Kanneliya Rainforest Reserve,Nature,6.2167,80.3333,A biodiversity hotspot with endemic flora and fauna.,1500,3,7,No
-Ridiyagama Safari Park,Wildlife,6.2,80.85,Sri Lanka's first open-air zoo featuring diverse animal species.,2500,2.5,6,Yes
 Kalametiya Bird Sanctuary,Nature,6.047,80.86,A coastal wetland rich in birdlife and mangroves.,1000,2,6,No
 Rekawa Turtle Watch,Wildlife,6.036,80.861,A beach where sea turtles come ashore to lay eggs.,500,2,6,No
 Secret Beach Mirissa,Beach,5.9436715,80.4499395,A small hidden beach in Mirissa popular for swimming and snorkeling with fewer crowds,0,2,7,No
@@ -42,7 +40,6 @@ Dadalla Beach,Beach,6.0500266,80.182822,Quiet and less crowded beach with a wide
 "Sea Turtle Hatchery Centre, Mahamodara",Wildlife,6.0405752,80.198366,Hatchery working to protect sea turtles and educate visitors.,500,1,8,Yes
 Rumassala Sanctuary,Nature,6.0180556,80.2416667,"Biodiverse sanctuary with myths linked to the Ramayana, lush hills and trails.",0,2,7,No
 Japanese Peace Pagoda - Rumassala,Landmark,6.0159928,80.2380956,A hilltop Buddhist stupa offering panoramic coastal views.,0,1,8,No
-Unawatuna Beach,Beach,6.0096861,80.248424,"Famous tourist beach known for snorkeling, cafes, and lively vibes.",0,2,9,Yes
 Welle Devalaya,Cultural,6.0062575,80.2439459,"Historic seaside shrine dedicated to God Devol, popular during festivals.",0,0.5,6,No
 Dalawella Beach,Beach,5.9995953,80.2636684,Scenic beach known for the swing and shallow waters ideal for families.,0,1.5,8,Yes
 Koggala Beach,Beach,5.992272,80.3106907,Quiet stretch of beach near the lake and turtle hatcheries.,0,2,7,No
@@ -71,6 +68,24 @@ Kaaku Duuwa,Landmark,5.9276578,80.611732,A lesser-known coastal landmark with na
 Turtle Point Bathigama Dickwella,Turtle Watching,5.9591898,80.6825163,A spot known for turtle sightings. offering opportunities for eco-tourism and wildlife observation.,0,2,5,No
 Blue Beach Island,Beach,5.9606247,80.7202253,A small island beach with clear waters. ideal for snorkeling and relaxation.,0,2,3,No
 Wildlife Turtle Project Kapuhenwala,Turtle Conservation,6.0430764,80.8280169,A conservation project focused on protecting sea turtles. offering educational tours and volunteering opportunities.,0,2,5,No
-Rekawa Lagoon Kayaking (Uncle's Place),Kayaking,6.054304,80.856006,A kayaking experience through Rekawa Lagoon. offering scenic views and wildlife observation.,0,3,5,No
-Kalametiya Lagoon Bird Sanctuary & Wetland Park,Bird Sanctuary,6.0799026,80.9329755,A biodiversity hotspot with over 150 bird species. ideal for birdwatching via catamaran tours.,30,2.5,8,No
 Kalametiya Bird Sanctuary,Bird Sanctuary,6.0974285,80.9508421,A historic sanctuary established in 1938. known for its rich birdlife and eco-friendly boat tours.,30,2.5,8,No
+Matara Fort,Historical,5.9484,80.5439,A small but charming Dutch-built fort by the Nilwala River with featuring colonial-era walls and gates.,0,1,6,Yes
+Dutch Reformed Church Galle,Historical,6.0259,80.2180,17th century Dutch church inside Galle Fort with historic tombstone floors and stained glass,0,0.75,7,Yes
+Galle Lighthouse,Historical,6.0253,80.2183,Iconic lighthouse on the Galle Fort ramparts offering panoramic sea views,0,0.5,8,Yes
+Old Dutch Hospital Galle,Historical,6.0262,80.2186,One of the oldest buildings in Galle Fort converted to shops and eateries,0,0.75,7,Yes
+Galle National Museum,Historical,6.0270,80.2175,Museum with collections on regional maritime and colonial history,0,1,6,Yes
+Kothduwa Temple Madu Ganga,Historical,6.3269,80.0332,Small river island temple with links to the tooth relic story,0,0.75,6,No
+Koggala Bodhiya,Historical,6.2450,80.2560,Ancient sacred fig tree and small temple complex on Koggala Lake,0,0.5,5,No
+Star Fort Matara,Historical,5.9484,80.5396,Dutch era star shaped fort with small museum and riverfront views,0,0.75,6,Yes
+Mulkirigala Raja Maha Vihara,Historical,6.1541,80.7332,Ancient rock temple complex with murals caves and Buddha images,0,2,8,No
+Sithulpawwa Rajamaha Viharaya,Historical,6.4178,81.3826,Early Buddhist monastery on a rocky hill with ancient ruins and paintings,0,2,8,No
+Tissamaharama Raja Maha Vihara,Historical,6.3297,80.7602,Ancient temple complex and dagoba central to the Tissamaharama area,0,1.5,7,No
+Tissa Dagoba Tissamaharama,Historical,6.3302,80.7611,Large ancient stupa used by pilgrims and visitors for centuries,0,0.75,7,No
+Yatala Vehera,Historical,6.2790,81.2851,3rd century BC stupa noted for its sculpted elephant heads and ancient foundations,0,1,7,No
+Kasagala Raja Maha Vihara,Historical,6.1769,80.8155,Ancient temple site featuring stupas rock inscriptions and historic ruins,0,1,6,No
+Kirinda Temple and Ruins,Historical,6.2595,81.1410,Coastal temple site with ancient ruins and local folklore associations,0,0.75,5,No
+Ussangoda Archaeological Site,Historical,6.0783,80.9146,Flat rocky plateau with ancient human settlement traces and local myths,0,0.75,5,No
+Tangalle Lagoon Kayaking,Adventure,6.0377,80.8062,Kayaking through mangrove fringes serene calm lagoon early morning trips,500,2,8,No
+Rathgama Lagoon Kayak Tours,Adventure,6.0167,80.1500,Lagoon near Dodanduwa with mangroves small islands self paddling laid back,3000 LKR,2,7,No
+Rekawa Lagoon Kayaking,Adventure,6.0360,80.8040,Quiet marsh connected lagoon portion with wildlife paddling paths shallow water,2000,1.5,7,No
+Hikkaduwa Lagoon Adventure Kayak,Adventure,6.2490,80.1160,Lagoon safari kayak around Kalapuwa trees traditional waters scenic route,5000,3,6,Yes
