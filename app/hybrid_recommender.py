@@ -108,6 +108,20 @@ def prepare_kmeans_features_v3(filtered_data):
     
     return all_features
 
+def format_top_candidates_for_users(top_candidates):
+    """Format top candidates with user-friendly information"""
+    candidates = []
+    for _, candidate in top_candidates.iterrows():
+        candidates.append({
+            'name': candidate['Name'],
+            'category': candidate['Category'],
+            'cost': f"LKR {candidate['Cost']:,}" if candidate['Cost'] > 0 else "FREE",
+            'visit_time': f"{candidate['AvgVisitTimeHrs']:.1f}h",
+            'popularity': f"{candidate['Popularity']}/10",
+            'crowded': candidate['Crowded'],
+        })
+    return candidates
+
 def hybrid_recommend(
     data,
     selected_categories,
@@ -230,14 +244,18 @@ def hybrid_recommend(
         selection_steps.append({
             'step': len(selected) + 1,
             'selected_attraction': best_candidate['Name'],
-            'efficiency_score': best_candidate['efficiency_score'],
-            'content_score': best_candidate['content_score'],
-            'hybrid_score': best_candidate['hybrid_score'],
-            'travel_time': best_candidate['travel_time'],
-            'total_time_so_far': total_time + best_candidate['total_time'],
-            'total_cost_so_far': total_cost + best_candidate['Cost'],
+            'category': best_candidate['Category'],
+            'cost': f"LKR {best_candidate['Cost']:,}" if best_candidate['Cost'] > 0 else "FREE",
+            'visit_time': f"{best_candidate['AvgVisitTimeHrs']:.1f} hours",
+            'popularity': f"{best_candidate['Popularity']}/10",
+            'crowded': best_candidate['Crowded'],
+            'travel_time': f"{best_candidate['travel_time']:.1f} hours",
+            'total_time_so_far': f"{total_time + best_candidate['total_time']:.1f} hours",
+            'total_cost_so_far': f"LKR {total_cost + best_candidate['Cost']:,}",
+            'budget_remaining': f"LKR {budget - (total_cost + best_candidate['Cost']):,}",
+            'time_remaining': f"{time_limit - (total_time + best_candidate['total_time']):.1f} hours",
             'feasible_options': len(feasible_attractions),
-            'top_candidates': top_candidates[['Name', 'efficiency_score']].to_dict('records')
+            'top_candidates': format_top_candidates_for_users(top_candidates)
         })
         
         # Add selected attraction to itinerary

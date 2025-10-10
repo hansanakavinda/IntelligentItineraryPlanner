@@ -501,24 +501,32 @@ if st.session_state['route'] is not None:
                         
                         with col1:
                             st.markdown(f"""
-                            **Selection Metrics:**
-                            - 🎯 Efficiency Score: {step['efficiency_score']:.3f}
-                            - 🚗 Travel Time: {step['travel_time']:.1f}h
-                            
+                            **🏛️ Selected Attraction Details:**
+                            - 💰 **Cost**: {step['cost']}
+                            - ⏱️ **Visit Duration**: {step['visit_time']}
+                            - ⭐ **Popularity**: {step['popularity']}
+                            - 👥 **Crowded**: {step['crowded']}
+                            - 🚗 **Travel Time**: {step['travel_time']}
+
                             """)
                         
                         with col2:
                             st.markdown(f"""
-                            **Context:**
-                            - 🎰 Feasible Options: {step['feasible_options']}
-                            - ⏱️ Total Time So Far: {step['total_time_so_far']:.1f}h
-                            - 💰 Total Cost So Far: LKR {step['total_cost_so_far']:,.0f}
+                            **📊 Trip Progress:**
+                            - ⏱️ Total Time: {step['total_time_so_far']}
+                            - 💰 Total Cost: {step['total_cost_so_far']}
+                            - 🕒 Time Left: {step['time_remaining']}
+                            - 💵 Budget Left: {step['budget_remaining']}
+                            - 🎯 Options Available: {step['feasible_options']}  
                             """)
                         
                         if len(step['top_candidates']) > 1:
                             st.markdown("**Top Candidates Considered:**")
                             for i, candidate in enumerate(step['top_candidates'][:3]):
-                                st.markdown(f"{i+1}. {candidate['Name']} (Score: {candidate['efficiency_score']:.3f})")
+                                st.markdown(f"""
+                                **{i+1}. {candidate['name']}** ({candidate['category']})
+                                - Cost: {candidate['cost']} | Duration: {candidate['visit_time']} | Rating: {candidate['popularity']} | {candidate['crowded']} crowds
+                                """)
         else:
             st.info("🤖 Generate an itinerary first to see AI explanations!")
 
