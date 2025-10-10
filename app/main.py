@@ -346,7 +346,11 @@ if st.button("🚀 Generate Personalized Itinerary", key="generate_btn"):
                 with st.spinner("🗺️ Optimizing your route..."):
                     st.session_state['route'] = optimize_route(recs, time_limit, start_location=user_location)
                     st.session_state['explanation_data'] = explanation_data  # NEW: Store explanation data
-                st.success(f"🎉 Found {len(st.session_state['route'])} amazing places for you!")
+                    attractionCount = len(st.session_state['route'])
+                    # if Your Location is included, remove it from count
+                    if 'Your Location' in st.session_state['route']['Name'].values:
+                        attractionCount -= 1
+                st.success(f"🎉 Found {attractionCount} amazing places for you!")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -420,12 +424,16 @@ if st.session_state['route'] is not None:
             # Summary statistics at the bottom
             st.markdown("---")
             st.markdown("### 📊 Trip Summary")
-            
+
+            # create a new dataframe excluding 'Your Location'
+            if 'Your Location' in st.session_state['route']['Name'].values:
+                route_excl_location = st.session_state['route'][st.session_state['route']['Name'] != 'Your Location']
             # Calculate totals
-            total_cost = st.session_state['route']['Cost'].sum()
-            total_time = st.session_state['route']['AvgVisitTimeHrs'].sum()
-            avg_popularity = st.session_state['route']['Popularity'].mean()
-            total_attractions = len(st.session_state['route'])
+            total_cost = route_excl_location['Cost'].sum()
+            total_time = route_excl_location['AvgVisitTimeHrs'].sum()
+            avg_popularity = route_excl_location['Popularity'].mean()
+            total_attractions = len(route_excl_location)
+
             
             # Display summary metrics
             col1, col2, col3, col4 = st.columns(4)
@@ -496,6 +504,7 @@ if st.session_state['route'] is not None:
                             **Selection Metrics:**
                             - 🎯 Efficiency Score: {step['efficiency_score']:.3f}
                             - 🚗 Travel Time: {step['travel_time']:.1f}h
+                            
                             """)
                         
                         with col2:
