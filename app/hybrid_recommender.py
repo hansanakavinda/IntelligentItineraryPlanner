@@ -134,29 +134,52 @@ def hybrid_recommend(
 ):
     # Filter by category and crowded preference
     filtered = data[data['Category'].isin(selected_categories)].copy()
-    if crowded_preference is not None:
-        if crowded_preference:
-            filtered = filtered[filtered['Crowded'] == 'Yes']
-        else:
-            filtered = filtered[filtered['Crowded'] == 'No']
+    
     if filtered.empty:
         if return_explanation_data:
             return pd.DataFrame([]), {}
         return pd.DataFrame([])
 
-    # KMeans clustering for diversity (by location and duration)
-    kmeans_features = prepare_kmeans_features_v3(filtered)
-    n_clusters = find_optimal_k_simple(kmeans_features)
-    print(f"Optimal clusters using elbow method: {n_clusters}")
-    kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=42)
-    filtered['cluster'] = kmeans.fit_predict(kmeans_features)
-    
-    print(f"Number of clusters formed: {n_clusters}")
+    # user preference profile 
+    filtered_descriptions = filtered['Description'].tolist()
+    user_preference_profile = " ".join(filtered_descriptions)
+    all_descriptions = data['Description'].tolist()
+
+    documents = [user_preference_profile] + all_descriptions
 
     # Content-based filtering (TF-IDF on Description)
     tfidf = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = tfidf.fit_transform(filtered['Description'])
+    tfidf_matrix = tfidf.fit_transform(documents)
     
+    # Cosine similarity to all attractions
+    user_profile_vector = tfidf_matrix[0:1]  # First row (user preference profile)
+    all_attraction_vectors = tfidf_matrix[1:]  # All attraction descriptions
+
+    similarity_scores = cosine_similarity(user_profile_vector, all_attraction_vectors)[0]
+    all_attractions_with_scores = data.copy()
+    all_attractions_with_scores['content_score'] = similarity_scores
+    
+    constraint_filtered = all_attractions_with_scores.copy()
+    
+    # Apply crowded preference constraint
+    if crowded_preference is not None:
+        if crowded_preference:
+            constraint_filtered = constraint_filtered[constraint_filtered['Crowded'] == 'Yes']
+        else:
+            constraint_filtered = constraint_filtered[constraint_filtered['Crowded'] == 'No']
+    
+    # KMeans clustering for diversity (by location and duration)
+    kmeans_features = prepare_kmeans_features_v3(constraint_filtered)
+    n_clusters = find_optimal_k_simple(kmeans_features)
+    print(f"Optimal clusters using elbow method: {n_clusters}")
+    kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=42)
+    constraint_filtered['cluster'] = kmeans.fit_predict(kmeans_features)
+
+    constraint_filtered['hybrid_score'] = (
+        constraint_filtered['content_score'] + 
+        0.2 * (constraint_filtered['cluster'] == constraint_filtered['cluster'].mode()[0])
+    )
+
     # Set up starting location
     if user_location is not None:
         start = filtered.iloc[0].copy()
@@ -167,20 +190,12 @@ def hybrid_recommend(
             if col not in ['Latitude', 'Longitude', 'Name']:
                 start[col] = None
     else:
-        start = filtered.iloc[0]
+        start = constraint_filtered.iloc[0]
     
-    # Cosine similarity to all attractions
-    mean_vec = np.asarray(tfidf_matrix.mean(axis=0)).reshape(1, -1)
-    similarity = cosine_similarity(tfidf_matrix, mean_vec)
-    filtered['content_score'] = similarity.flatten()
-
-    # Hybrid score: combine cluster diversity and content score
-    filtered['hybrid_score'] = filtered['content_score'] + 0.2 * (filtered['cluster'] == filtered['cluster'].mode()[0])
-
     # Store original filtered data for explanation
     explanation_data = {
         'original_data': data.copy(),
-        'filtered_data': filtered.copy(),
+        'filtered_data': constraint_filtered.copy(),
         'kmeans_model': kmeans,
         'tfidf_matrix': tfidf_matrix,
         'tfidf_vectorizer': tfidf,
@@ -197,8 +212,8 @@ def hybrid_recommend(
     total_time = 0
     total_cost = 0
     current = start
-    remaining = filtered.copy()
-    selection_steps = []  # NEW: Track selection process for explanation
+    remaining = constraint_filtered.copy()
+    selection_steps = []  #Track selection process for explanation
     
     while not remaining.empty:
         # Calculate travel time from current location to each remaining attraction

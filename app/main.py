@@ -425,6 +425,7 @@ if st.session_state['route'] is not None:
             st.markdown("---")
             st.markdown("### 📊 Trip Summary")
 
+            route_excl_location = st.session_state['route']
             # create a new dataframe excluding 'Your Location'
             if 'Your Location' in st.session_state['route']['Name'].values:
                 route_excl_location = st.session_state['route'][st.session_state['route']['Name'] != 'Your Location']
