@@ -151,6 +151,8 @@ def hybrid_recommend(
         else:
             constraint_filtered = constraint_filtered[constraint_filtered['Crowded'] == 'No']
     
+    constraint_filtered = constraint_filtered.nlargest(20, 'content_score').copy()
+    
     # KMeans clustering for diversity (by location and duration)
     kmeans_features = prepare_kmeans_features_v3(constraint_filtered)
     n_clusters = find_optimal_k_simple(kmeans_features)
