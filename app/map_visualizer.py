@@ -37,6 +37,7 @@ def display_map(route):
     """
     Clean, single implementation of map display with proper sizing
     """
+    print(route)
     # Use the correct column names (case-sensitive)
     lat_col = 'Latitude' if 'Latitude' in route.columns else 'latitude'
     lon_col = 'Longitude' if 'Longitude' in route.columns else 'longitude'

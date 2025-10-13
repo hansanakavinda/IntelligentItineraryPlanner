@@ -14,59 +14,42 @@ def estimate_travel_time_km(distance_km):
 
 def find_optimal_k_simple(features, max_k=8):
     """Simple elbow method implementation with detailed logging"""
-    print(f"\n=== ELBOW METHOD DEBUG ===")
-    print(f"Input features shape: {features.shape}")
 
     # Handle both DataFrame and numpy array
     if hasattr(features, 'columns'):
-        print(f"Features used: {list(features.columns)}")
         feature_data = features.values  # Convert DataFrame to numpy array
     else:
-        print(f"Features used: numpy array with {features.shape[1]} features")
         feature_data = features  # Already a numpy array
 
-    print(f"Max k to test: {max_k}")
-
     if len(feature_data) <= 2:
-        print(f"Too few data points ({len(feature_data)}), returning k=1")
         return 1
 
     max_k = min(max_k, len(feature_data))
-    print(f"Adjusted max_k (limited by data size): {max_k}")
     
     wcss = []
-    print(f"\n--- Calculating WCSS for different k values ---")
     
     for k in range(1, max_k + 1):
         kmeans = KMeans(n_clusters=k, n_init=10, random_state=42)
         kmeans.fit(feature_data)
         wcss_value = kmeans.inertia_
         wcss.append(wcss_value)
-        print(f"k={k}: WCSS = {wcss_value:.2f}")
     
     print(f"\nWCSS values: {[f'{w:.2f}' for w in wcss]}")
     
     # Find elbow using rate of change
     if len(wcss) >= 3:
-        print(f"\n--- Finding Elbow Point ---")
         differences = [wcss[i-1] - wcss[i] for i in range(1, len(wcss))]
-        print(f"First differences (WCSS reduction): {[f'{d:.2f}' for d in differences]}")
+        # print(f"First differences (WCSS reduction): {[f'{d:.2f}' for d in differences]}")
         
         max_difference = max(differences)
         max_diff_index = differences.index(max_difference)
         optimal_k = max_diff_index + 2  # +2 because differences start from k=2
-        
-        print(f"Maximum WCSS reduction: {max_difference:.2f} (between k={max_diff_index+1} and k={max_diff_index+2})")
-        print(f"Elbow point found at k={optimal_k}")
         
         # Show why this k is optimal
         if optimal_k > 1:
             improvement_before = differences[max_diff_index]
             if max_diff_index + 1 < len(differences):
                 improvement_after = differences[max_diff_index + 1]
-                print(f"WCSS reduction at optimal k: {improvement_before:.2f}")
-                print(f"WCSS reduction after optimal k: {improvement_after:.2f}")
-                print(f"Diminishing returns ratio: {improvement_after/improvement_before:.2f}")
         
         final_k = min(optimal_k, max_k)
         print(f"Final optimal k: {final_k}")
@@ -171,7 +154,7 @@ def hybrid_recommend(
     # KMeans clustering for diversity (by location and duration)
     kmeans_features = prepare_kmeans_features_v3(constraint_filtered)
     n_clusters = find_optimal_k_simple(kmeans_features)
-    print(f"Optimal clusters using elbow method: {n_clusters}")
+    
     kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=42)
     constraint_filtered['cluster'] = kmeans.fit_predict(kmeans_features)
 
@@ -179,6 +162,9 @@ def hybrid_recommend(
         constraint_filtered['content_score'] + 
         0.2 * (constraint_filtered['cluster'] == constraint_filtered['cluster'].mode()[0])
     )
+    
+    constraint_filtered = constraint_filtered.nlargest(constraint_filtered.shape[0], 'hybrid_score').copy()
+    print(constraint_filtered[['Name', 'hybrid_score']].head(20))
 
     # Set up starting location
     if user_location is not None:
@@ -216,23 +202,20 @@ def hybrid_recommend(
     selection_steps = []  #Track selection process for explanation
     
     while not remaining.empty:
+        
         # Calculate travel time from current location to each remaining attraction
         remaining['travel_time'] = remaining.apply(
             lambda x: estimate_travel_time_km(haversine_distance(current, x)), axis=1
         )
         remaining['total_time'] = remaining['travel_time'] + remaining['AvgVisitTimeHrs']
         
-        # NEW: Calculate efficiency metrics for better selection
+       # SIMPLIFIED: Only time-based efficiency
         remaining['value_time_ratio'] = remaining['hybrid_score'] / remaining['total_time']
-        remaining['value_cost_ratio'] = remaining['hybrid_score'] / (remaining['Cost'] + 0.01)  # Avoid division by zero
-        remaining['value_budget_ratio'] = remaining['hybrid_score'] / (remaining['Cost'] / budget + 0.01)
         
-        # NEW: Combined efficiency score that considers multiple factors
+        # Simple efficiency score: content relevance + time efficiency
         remaining['efficiency_score'] = (
-            0.4 * remaining['value_time_ratio'] + 
-            0.3 * remaining['value_cost_ratio'] + 
-            0.2 * remaining['hybrid_score'] +
-            0.1 * remaining['value_budget_ratio']
+            0.7 * remaining['hybrid_score'] +      # What user wants (content match)
+            0.3 * remaining['value_time_ratio']    # Time-efficient choice
         )
         
         # Filter attractions that fit within constraints
@@ -253,7 +236,7 @@ def hybrid_recommend(
         
         # NEW: Among top candidates, select the one with highest efficiency score
         best_candidate = top_candidates.iloc[0]
-        next_idx = best_candidate.name
+        best_idx = best_candidate.name
         
         # Store selection step for explanation
         selection_steps.append({
@@ -274,12 +257,11 @@ def hybrid_recommend(
         })
         
         # Add selected attraction to itinerary
-        next_attraction = remaining.loc[next_idx]
-        selected.append(next_attraction)
-        total_time += next_attraction['total_time']
-        total_cost += next_attraction['Cost']
-        current = next_attraction
-        remaining = remaining.drop(next_idx)
+        selected.append(best_candidate)
+        total_time += best_candidate['total_time']
+        total_cost += best_candidate['Cost']
+        current = best_candidate
+        remaining = remaining.drop(best_idx)
     
     # Add selection steps to explanation data
     explanation_data['selection_steps'] = selection_steps
