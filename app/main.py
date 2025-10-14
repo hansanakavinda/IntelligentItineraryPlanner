@@ -536,7 +536,24 @@ if st.session_state['route'] is not None:
 # Footer
 st.markdown("---")
 st.markdown("""
+<!-- Feedback section at bottom -->
+<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+    <h4>Help Us Improve Your Experience</h4>
+    <p>How satisfied are you with these recommendations?</p>
+    <a href="https://forms.gle/HRapWyJb8gyKf5zS6" 
+       target="_blank" 
+       class="btn btn-primary" 
+       style="background-color: #4285f4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        📝 Share Your Feedback
+    </a>
+    <p style="font-size: 12px; color: #666; margin-top: 10px;">
+        Takes less than 2 minutes • Help us serve you better
+    </p>
+</div>
+
 <div style="text-align: center; color: #666; padding: 2rem 0;">
     <p>🏝️ Discover Sri Lanka's Hidden Gems | Built with ❤️ using Streamlit</p>
 </div>
+            
+
 """, unsafe_allow_html=True)
