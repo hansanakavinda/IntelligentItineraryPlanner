@@ -352,6 +352,21 @@ if st.button("🚀 Generate Personalized Itinerary", key="generate_btn"):
                         attractionCount -= 1
                 st.success(f"🎉 Found {attractionCount} amazing places for you!")
 
+                # Auto-scroll after a brief delay
+                st.components.v1.html("""
+                <script>
+                setTimeout(function() {
+                    const resultsSection = window.parent.document.querySelector('.results-section');
+                    if (resultsSection) {
+                        resultsSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 100);
+                </script>
+                """, height=0)
+
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Display results
