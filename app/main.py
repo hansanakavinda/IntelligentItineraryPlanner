@@ -43,17 +43,13 @@ st.markdown("""
     }
     
     /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stDeployButton {display: none;}
+    # #MainMenu {visibility: hidden;}
+    # footer {visibility: hidden;}
+    # header {visibility: hidden;}
+    # .stDeployButton {display: none;}
     
     /* Main container */
-    .block-container {
-        padding: 1rem 1rem 2rem 1rem !important;
-        max-width: 1200px !important;
-    }
-    
+        
     /* Glassmorphism header */
     .main-header {
         background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
@@ -204,28 +200,6 @@ st.markdown("""
     .css-1d391kg {
         background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
         border-right: 1px solid var(--border-light);
-    }
-    
-    /* Enhanced results section */
-    .results-section {
-        background: var(--surface);
-        padding: 2rem;
-        border-radius: 24px;
-        box-shadow: var(--shadow-large);
-        border: 1px solid var(--border-light);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .results-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 6px;
-        background: var(--success-gradient);
-        border-radius: 24px 24px 0 0;
     }
     
     /* Modern tabs */
@@ -451,7 +425,7 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     # Location section
-    st.markdown('<div class="input-section">', unsafe_allow_html=True)
+    
     st.markdown("### 📍 Your Location")
     
     # Get user location
@@ -464,11 +438,10 @@ with col1:
     else:
         st.info("🔍 Click 'Get my location' and allow location access for personalized routes")
     
-    st.markdown('</div>', unsafe_allow_html=True)
+    
 
 with col2:
     # Trip summary card
-    st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown("### 📊 Trip Summary")
     
     # Display current selections
@@ -485,10 +458,8 @@ with col2:
     st.markdown(f"**Budget:** LKR {budget:,}")
     st.markdown(f"**Crowd Preference:** {crowded_preference}")
     
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # Generate itinerary button
-st.markdown('<div class="input-section">', unsafe_allow_html=True)
 if st.button("🚀 Generate Personalized Itinerary", key="generate_btn"):
     if not category:
         st.error("⚠️ Please select at least one attraction category")
@@ -529,8 +500,6 @@ if st.button("🚀 Generate Personalized Itinerary", key="generate_btn"):
                 }, 100);
                 </script>
                 """, height=0)
-
-st.markdown('</div>', unsafe_allow_html=True)
 
 # Display results
 if st.session_state['route'] is not None:
