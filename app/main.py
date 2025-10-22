@@ -22,24 +22,39 @@ st.markdown("""
     
     /* Modern color palette */
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --primary-gradient: #50589C;
+        --secondary-gradient: #636CCB;
         --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         --accent-color: #6c5ce7;
-        --background: #fafbfc; 
+        --background: transparent; 
         --surface: #ffffff;
         --surface-elevated: #ffffff;
         --text-primary: #2d3748;
         --text-secondary: #718096;
-        --border-light: #e2e8f0;
+        --border-light: #636CCB;
         --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+            
+    [data-testid="stHeader"] {
+        background: #ffffff !important;           /* header background */
     }
     
     /* Global font settings */
     html, body, [class*="css"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+            
+    /* Main content background */
+    [data-testid="stAppViewContainer"] {
+        background: #ffffff !important;
+    }
+
+    /* Sidebar background */
+    [data-testid="stSidebar"] {
+        background: #636CCB !important;
+        border-right: 1px solid #636CCB !important;
     }
     
     /* Hide Streamlit branding */
@@ -52,7 +67,7 @@ st.markdown("""
         
     /* Glassmorphism header */
     .main-header {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        background: #50589C;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.18);
@@ -151,6 +166,7 @@ st.markdown("""
         transform: translateY(-3px) scale(1.02);
         box-shadow: var(--shadow-large);
         color: white;
+        background: var(--primary-gradient);
     }
     
     .stButton > button:active {
@@ -323,36 +339,6 @@ st.markdown("""
         .input-section {
             padding: 1rem;
         }
-    }
-    
-    /* Dark mode toggle effect */
-    .css-1629p8f [data-testid="stHeader"] {
-        background: transparent;
-    }
-    
-    /* Scroll indicator enhancement */
-    .scroll-indicator {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: var(--primary-gradient);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: var(--shadow-large);
-        z-index: 1000;
-        animation: pulse 2s infinite;
-        backdrop-filter: blur(10px);
-    }
-    
-    @keyframes pulse {
-        0% { transform: scale(1); box-shadow: var(--shadow-large); }
-        50% { transform: scale(1.05); box-shadow: 0 20px 40px -5px rgba(108, 92, 231, 0.4); }
-        100% { transform: scale(1); box-shadow: var(--shadow-large); }
     }
     
 </style>
@@ -684,7 +670,7 @@ if st.session_state['route'] is not None:
 st.markdown("---")
 st.markdown("""
 <!-- Feedback section at bottom -->
-<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #6E8CFB; border-radius: 8px;">
     <h3 style="color: var(--text-primary); font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 1rem;">
         🌟 Love Your Experience?
     </h3>

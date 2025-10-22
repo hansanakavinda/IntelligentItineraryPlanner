@@ -10,3 +10,4 @@ python-dotenv
 plotly
 matplotlib
 seaborn
+streamlit-js-eval #for geolocation
