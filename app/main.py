@@ -22,23 +22,23 @@ st.markdown("""
     
     /* Modern color palette */
     :root {
-        --primary-gradient: #50589C;
+        --primary-gradient: #A7AAE1;
         --secondary-gradient: #636CCB;
         --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --accent-color: #6c5ce7;
+        --accent-color: #00ff00;
         --background: transparent; 
         --surface: #ffffff;
         --surface-elevated: #ffffff;
         --text-primary: #2d3748;
         --text-secondary: #718096;
-        --border-light: #636CCB;
+        --border-light: #A7AAE1;
         --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
             
     [data-testid="stHeader"] {
-        background: #ffffff !important;           /* header background */
+        background: #696FC7 !important;           /* header background */
     }
     
     /* Global font settings */
@@ -48,26 +48,25 @@ st.markdown("""
             
     /* Main content background */
     [data-testid="stAppViewContainer"] {
-        background: #ffffff !important;
+        background: #696FC7 !important;
     }
 
     /* Sidebar background */
     [data-testid="stSidebar"] {
-        background: #636CCB !important;
-        border-right: 1px solid #636CCB !important;
+        background: #A7AAE1 !important;
+        border-right: 1px solid #A7AAE1 !important;
     }
     
     /* Hide Streamlit branding */
     # #MainMenu {visibility: hidden;}
     # footer {visibility: hidden;}
     # header {visibility: hidden;}
-    # .stDeployButton {display: none;}
     
     /* Main container */
         
     /* Glassmorphism header */
     .main-header {
-        background: #50589C;
+        background: #A7AAE1;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.18);
@@ -414,8 +413,12 @@ with col1:
     
     st.markdown("### 📍 Your Location")
     
-    # Get user location
-    loc = streamlit_geolocation()
+   # Create columns - button column will be fixed at 280px
+    button_col = st.container(width=31)  # Second number is just a large flex value
+    
+    with button_col:
+        loc = streamlit_geolocation()
+    
     user_location = None
     
     if loc and loc["latitude"] and loc["longitude"]:
@@ -670,7 +673,7 @@ if st.session_state['route'] is not None:
 st.markdown("---")
 st.markdown("""
 <!-- Feedback section at bottom -->
-<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #6E8CFB; border-radius: 8px;">
+<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #A7AAE1; border-radius: 8px;">
     <h3 style="color: var(--text-primary); font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 1rem;">
         🌟 Love Your Experience?
     </h3>
