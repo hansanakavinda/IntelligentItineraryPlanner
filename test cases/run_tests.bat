@@ -12,5 +12,8 @@ python test_kmeans.py
 echo Running Test Case 3: Content-Based Filtering...
 python test_content_filtering.py
 
+echo Running TSP Solver Test...
+python test_tsp_solver.py
+
 echo.
 pause

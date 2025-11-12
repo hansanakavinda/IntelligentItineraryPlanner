@@ -428,6 +428,8 @@ if st.session_state['route'] is not None:
             # create a new dataframe excluding 'Your Location'
             if 'Your Location' in st.session_state['route']['Name'].values:
                 route_excl_location = st.session_state['route'][st.session_state['route']['Name'] != 'Your Location']
+            else: 
+                route_excl_location = st.session_state['route']
             # Calculate totals
             total_cost = route_excl_location['Cost'].sum()
             total_time = route_excl_location['AvgVisitTimeHrs'].sum()
