@@ -196,21 +196,26 @@ st.markdown("""
     .stMultiSelect > div > div,
     .stNumberInput > div > div,
     .stTextInput > div > div {
-        border-radius: 12px !important;
-        border: 2px solid var(--border-light) !important;
         background: var(--surface) !important;
         transition: all 0.3s ease !important;
+    }
+            
+    
+    .stMultiSelect > div > div,
+    .stTextInput > div > div {
+        border-radius: 12px !important;
+        border: 2px solid var(--border-light) !important;
     }
     
     .stSelectbox > div > div:focus-within,
     .stMultiSelect > div > div:focus-within,
     .stNumberInput > div > div:focus-within,
     .stTextInput > div > div:focus-within {
-        border-color: var(--accent-color) !important;
+        
         box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1) !important;
         transform: translateY(-1px);
     }
-    
+       
     /* Modern sidebar */
     .css-1d391kg {
         background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
