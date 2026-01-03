@@ -10,6 +10,7 @@
 
 # Python
 __pycache__/
+app/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -71,3 +72,12 @@ logs/
 
 # Config files with sensitive data
 config.py
+
+# Development containers
+.devcontainer/
+
+# Testing
+.pytest_cache/
+pytest_cache/
+.coverage
+htmlcov/

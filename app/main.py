@@ -22,23 +22,23 @@ st.markdown("""
     
     /* Modern color palette */
     :root {
-        --primary-gradient: #A7AAE1;
+        --primary-gradient: #696FC7;
         --secondary-gradient: #636CCB;
         --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         --accent-color: #00ff00;
         --background: transparent; 
         --surface: #ffffff;
         --surface-elevated: #ffffff;
-        --text-primary: #2d3748;
-        --text-secondary: #718096;
-        --border-light: #A7AAE1;
+        --text-primary: #ffffff;
+        --text-secondary: #ffffff;
+        --border-light: #696FC7;
         --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
             
     [data-testid="stHeader"] {
-        background: #696FC7 !important;           /* header background */
+        background: #A7AAE1 !important;           /* header background */
     }
     
     /* Global font settings */
@@ -48,13 +48,13 @@ st.markdown("""
             
     /* Main content background */
     [data-testid="stAppViewContainer"] {
-        background: #696FC7 !important;
+        background: #A7AAE1 !important;
     }
 
     /* Sidebar background */
     [data-testid="stSidebar"] {
-        background: #A7AAE1 !important;
-        border-right: 1px solid #A7AAE1 !important;
+        background: #696FC7 !important;
+        border-right: 1px solid #696FC7 !important;
     }
     
     /* Hide Streamlit branding */
@@ -66,7 +66,7 @@ st.markdown("""
         
     /* Glassmorphism header */
     .main-header {
-        background: #A7AAE1;
+        background: #696FC7;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.18);
@@ -678,7 +678,7 @@ if st.session_state['route'] is not None:
 st.markdown("---")
 st.markdown("""
 <!-- Feedback section at bottom -->
-<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #A7AAE1; border-radius: 8px;">
+<div class="feedback-section" style="margin-top: 10px; text-align: center; padding: 20px; background-color: #696FC7; border-radius: 8px;">
     <h3 style="color: var(--text-primary); font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 1rem;">
         🌟 Love Your Experience?
     </h3>
@@ -691,13 +691,13 @@ st.markdown("""
        style="background-color: #4285f4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
         📝 Share Your Feedback
     </a>
-    <p style="font-size: 12px; color: #666; margin-top: 10px;">
+    <p style="font-size: 12px; color: #eee; margin-top: 10px;">
         Takes less than 2 minutes • Help us serve you better
     </p>
 </div>
 
 <div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p>🏝️ Discover Sri Lanka's Hidden Gems | Built with ❤️ using Streamlit</p>
+    <p>🏝️ Discover Sri Lanka's Hidden Gems | Built with Streamlit</p>
 </div>
             
 
